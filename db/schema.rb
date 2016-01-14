@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(version: 20151130033055) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "role"
+    t.integer  "role_id"
     t.string   "username"
   end
 
