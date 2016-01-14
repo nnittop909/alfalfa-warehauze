@@ -1,0 +1,33 @@
+
+
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<div class="box box-solid">
+<div class="box-header with-border">
+<h4 class="pull-left">List of Materials</h4>
+<%= link_to 'New Material', new_material_path, class: "btn btn-sm btn-primary pull-right" %>
+</div>
+<div class="box-body">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Quantity Remaining</th>
+      <th>Action</th>
+   
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @materials.each do |material| %>
+      <tr>
+        <td><%= link_to material.description, material %></td>
+        <td><%= material.quantity %> <%= material.unit %></td>
+        <td><%= link_to 'Edit', edit_material_path(material) %> | <%= link_to 'Delete', material, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</div>
+</div>

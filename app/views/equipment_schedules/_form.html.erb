@@ -1,0 +1,37 @@
+<%=simple_form_for [@project, @equipment_schedule] do |f| %>
+  <%= f.error_notification %>
+  <div class="col-md-6 col-md-offset-3">
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <% if @equipment_schedule.new_record? %>
+          <h4>New Equipment Schedule</h4>
+        <% else %>
+          <h4>Update Equipment Schedule</h4>
+        <% end %>
+      </div>
+      <div class="box-body">
+        <div class="form-inputs">
+          <%= f.association :equipment, input_html: {class: "input-sm"} %>
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.input :starting_date, as: :string, input_html: {class: "datepicker input-sm"} %>
+            </div>
+            <div class="col-md-6">
+              <%= f.input :end_date,  as: :string, input_html: {class: "datepicker input-sm"} %>
+            </div>
+          </div>
+        </div>
+        <div class="box-footer">
+          <div class="pull-left">
+          <%= link_to "Cancel", (@equipment_schedule.project), class: "btn btn-warning btn-sm" %>
+          </div>
+          <% if @equipment_schedule.new_record? %>
+            <%= f.submit "Save", class: "btn btn-primary btn-sm pull-right" %>
+          <% else %>
+            <%= f.submit "Update", class: "btn btn-primary btn-sm pull-right" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

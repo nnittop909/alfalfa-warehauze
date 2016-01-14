@@ -1,0 +1,275 @@
+<%provide(:title, "#{@project.name} | projects") %>
+
+
+
+<div class="col-md-12">
+
+  <!-- Nav tabs -->
+  <div class="card">
+    <div class="row">
+      <h4 class="text-center help-block"><%=@project.name.upcase %></h4>
+    </div><hr>
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+      <li role="presentation"><a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Contractors</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Materials <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li role="presentation"><a role="menuitem" data-toggle="tab" tabindex="-1" href="#permits">Materials from Stock</a></li>
+          <li role="presentation"><a role="menuitem" data-toggle="tab" tabindex="-1" href="#material_expenses">Materials from Purchase</a></li>
+        </ul>
+      </li>
+      <li role="presentation"><a href="#equipments" aria-controls="equipments" role="tab" data-toggle="tab">Equipments</a></li>
+      <li role="presentation"><a href="#reports" aria-controls="reports" role="tab" data-toggle="tab">Reports</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="profile">
+        <div class="row">
+
+          <div class="col-md-12">
+            <div class="col-md-12">
+            <% if @project.start_date <= @project.date_now && @project.target_date >= @project.date_now %>
+              <div class="progress-group">
+                <% if @project.actual_percentage <= 0 %>
+                  <span class="progress-text">Project Progress</span>
+                  <span class="progress-number"><%=@project.actual_percentage%>% Completed | 
+                    <% if @project.actual_rem_days > 1%>
+                      <span><%= @project.actual_rem_days %> Days</span>
+                    <% elsif @project.actual_rem_days <= 1 %>
+                      <span><%= @project.actual_rem_days %> Day</span>
+                    <% end %> Remaining</span>
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=@project.actual_percentage%>%">
+                    </div>
+                  </div>
+                <% else %>
+                  <span class="progress-text">Project Progress</span>
+                  <span class="progress-number"><%=@project.actual_percentage%>% Completed | 
+                    <% if @project.actual_rem_days > 1%>
+                      <span><%= @project.actual_rem_days %> Days</span>
+                    <% elsif @project.actual_rem_days <= 1 %>
+                      <span><%= @project.actual_rem_days %> Day</span>
+                    <% end %> Remaining</span>
+                  <div class="progress active">
+                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=@project.actual_percentage%>%">
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% elsif @project.start_date <= @project.date_now && @project.target_date <= @project.date_now %>
+              <div class="progress-group">
+                <span class="progress-text">Project Progress</span>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    <span>100% Completed</span>
+                  </div>
+                </div>
+              </div>
+            <% elsif @project.target_date >= @project.date_now && @project.start_date >= @project.date_now %>
+              <span class="progress-text">Project Progress</span>
+              <div class="progress">
+                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                  <span>0% Completed</span>
+                </div>
+              </div>
+            <% end %>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>Project Name: </td>
+                  <td><%= @project.name.upcase %></td>
+                </tr>
+                <tr>
+                  <td>Location: </td>
+                  <td><%=@project.location %></td>
+                </tr>
+                <tr>
+                  <td>Duration: </td>
+                  <td><%=@project.actual_total_duration%> CD</td>
+                </tr>
+                <tr>
+                  <td>Starting Date: </td>
+                  <td><%=@project.start_date.strftime("%B %e, %Y") %></td>
+                </tr>
+                <tr>
+                  <td>Target Date: </td>
+                  <td><%=@project.target_date.strftime("%B %e, %Y") %></td>
+                </tr>
+                <tr>
+                  <td>Project Cost: </td>
+                  <td><%= number_to_currency @project.cost %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <%=link_to "Update Info", edit_project_path(@project), class: "btn btn-primary btn-sm" %>
+          </div>
+        </div>
+        <div class="row"><hr>
+          <h4>Expenses</h4>
+          <div class="col-md-12">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>Billable Materials</td>
+                  <td><%=number_to_currency @project.billable_materials.sum(:price) %></td>
+                </tr>
+                <tr>
+                  <td>Equipment Expenses</td>
+                  <td><%=number_to_currency @project.equipment_expenses.sum(:amount) %></td>
+                </tr>
+                <tr>
+                  <td>Purchased Materials</td>
+                  <td><%=number_to_currency @project.material_expenses.sum(:price) %></td>
+                </tr>
+                <tr>
+                  <td><strong>Total</strong></td>
+                  <td><strong><%=number_to_currency @project.total_expenses %></strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="payments">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @project.contractors.each do |contractor| %>
+              <tr>
+                <td><%=link_to contractor.company, contractor %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="modal-footer">
+          <%=link_to "Add Contractor", edit_project_path(@project), class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="permits">
+        <h4><center>Materials from Stock</center></h4><hr>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Quantity</th>
+              <th>Contractor</th>
+              <th>Cost</th>
+              <th>Date Released</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%@project.billable_materials.each do |billable_material| %>
+              <tr>
+                <td><%=billable_material.description.titleize %></td>
+                <td><%=billable_material.quantity %> <%=billable_material.unit %></td>
+                <td><%=billable_material.contractor %></td>
+                <td><%=number_to_currency billable_material.total_price %></td>
+                <td><%=billable_material.created_at.strftime("%B %d, %Y") %></td>
+                <td><%= link_to 'Delete', project_billable_material_path(@project, billable_material.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="modal-footer">
+          <%=link_to "Add Material", new_project_billable_material_path(@project), class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="material_expenses">
+        <h4><center>Purchased Materials</center></h4><hr>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Quantity</th>
+              <th>Cost</th>
+              <th>Date Released</th>
+              <th>Contractor</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%@project.material_expenses.each do |material_expense| %>
+              <tr>
+                <td><%=material_expense.description.titleize %></td>
+                <td><%=material_expense.quantity %> <%=material_expense.unit %></td>
+                <td><%=number_to_currency material_expense.price %></td>
+                <td><%=material_expense.created_at.strftime("%B %d, %Y") %></td>
+                <td><%=material_expense.contractor %></td>
+                <td><%= link_to "Edit", edit_project_material_expense_path(@project, material_expense.id) %> | <%= link_to 'Delete', project_material_expense_path(@project, material_expense.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="modal-footer">
+          <%=link_to "Add Material", new_project_material_expense_path(@project), class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="equipments">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Equipment</th>
+              <th>Dates</th>
+              <th>Number of Days</th>
+              <th>Actions</th>
+             </tr>
+          </thead>
+          <tbody>
+            <%@project.equipment_schedules.each do |equipment_schedule| %>
+              <tr>
+                <td><%=link_to equipment_schedule.equipment, equipment_path(equipment_schedule.equipment)%></td>
+                <td><%=equipment_schedule.starting_date.strftime("%B %d, %Y") %> - <%=equipment_schedule.end_date.strftime("%B %d, %Y")  %></td>
+                <td><%=equipment_schedule.number_of_days %> Days</td>
+                <td><%= link_to "Edit", edit_project_equipment_schedule_path(@project, equipment_schedule.id) %> | <%= link_to 'Delete', project_equipment_schedule_path(@project, equipment_schedule.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="modal-footer">
+          <%=link_to "Add Equipment", new_project_equipment_schedule_path(@project), class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="reports">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date Uploaded</th>
+              <th class="text-muted">Actions</th>
+             </tr>
+          </thead>
+          <tbody>
+            <% @project.uploads.order("created_at desc").each do |upload| %>
+              <tr>
+              <td><%= link_to upload.uploaded_file_file_name, project_upload_path(@project, upload.id) %></td>
+              <td><%= upload.created_at.strftime("%B %e, %Y") %></td>
+              <td><%= link_to 'Destroy', project_upload_path(@project, upload.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="modal-footer">
+          <%=link_to "Add Reports", new_project_upload_path(@project), class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

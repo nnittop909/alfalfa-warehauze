@@ -1,0 +1,32 @@
+<%= simple_form_for [@project, @upload], html: { multipart: true } do |f| %>
+  
+<div class="col-md-6 col-md-offset-3">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <% if @upload.new_record? %>
+        <h4>Upload Report</h4>
+      <% else %>
+        <h4>Update Report</h4>
+      <% end %>
+    </div>
+    <div class="actions panel-body">
+      <%= f.input :uploaded_file, label: false, multiple: true, as: :file, name: 'upload[uploaded_file]' %>
+    </div>
+    <div class="modal-footer">
+      <div class="pull-left">
+        <%= link_to 'Back', @upload.project, class: 'btn btn-sm btn-warning' %>
+      </div>
+      <div class="actions pull-right">
+        <% if @upload.new_record? %>
+          <%= f.submit "Upload", class: 'btn btn-sm btn-primary' %>
+        <% else %>
+          <%= f.submit "Update", class: 'btn btn-sm btn-primary' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<% # jquery upload template # %>
+<script id="template-upload" type="text/x-tmpl"><div class="col-md-6 col-md-offset-3"><div class="panel panel-default col-md-12"><div class="upload">{%=o.name%}<div class="progress"><div class="progress-bar bar" style="width: 0%"></div></div></div></div></div></script>

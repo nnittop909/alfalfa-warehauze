@@ -1,0 +1,100 @@
+<%provide(:title, "#{@equipment} | equipments") %>
+
+
+
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+
+<!-- Nav tabs -->
+      <div class="card">
+        <div class="row">
+          <h3 class="text-center help-block"><%=@equipment.description.upcase %></h3>
+        </div><hr>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+            <li role="presentation"><a href="#repairs" aria-controls="repairs" role="tab" data-toggle="tab">Repair and Maintenance</a></li>
+            <li role="presentation"><a href="#permits" aria-controls="permits" role="tab" data-toggle="tab">Status</a></li>
+            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="profile">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>Description</td>
+                  <td><%=@equipment.description.upcase %></td>
+                </tr>
+                <tr>
+                  <td>Plate Number</td>
+                  <td><%=@equipment.plate_number %></td>
+                </tr>
+                <tr>
+                  <td>Operator</td>
+                  <td><%=@equipment.operator_name.upcase %></td>
+                </tr>
+              </tbody>
+            </table>
+              <%=link_to 'Update Info', edit_equipment_path(@equipment), class: "btn btn-primary btn-sm pull-right" %>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="repairs">
+            <div class="table table-responsive">
+              <% @equipment.projects.each do |project| %>
+                <% if @equipment.equipment_expenses.present? %>
+                  <h4 class="text-center"><%= link_to project.name, project_path(project) %></h4><hr>
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @equipment.equipment_expenses.where("project_id = ?", project.id).each do |equipment_expense| %>
+                        <tr>
+                          <td><%=equipment_expense.category.humanize %></td>
+                          <td><%=equipment_expense.description %></td>
+                          <td><%=equipment_expense.quantity %> <%=equipment_expense.unit %></td>
+                          <td><%=number_to_currency equipment_expense.amount %></td>
+                          <td><%= equipment_expense.created_at.strftime("%B %d, %Y") %></td>
+                          <td><%= link_to 'Edit', edit_equipment_equipment_expense_path(@equipment, equipment_expense) %> | <%= link_to 'Delete', equipment_equipment_expense_path(@equipment, equipment_expense.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3">
+                            <strong class="pull-right">Total: </strong>
+                          </td>
+                          <td colspan="3">
+                            <strong><%= number_to_currency project.equipment_expenses.sum(:amount) %></strong>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table><hr>
+                <% end %>
+              <% end %>
+            </div>
+              <%=link_to 'New Repair and Maintenance', new_equipment_equipment_expense_path(@equipment), class: "btn btn-primary btn-sm pull-right" %>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="settings">
+            <p>Revoking a equipment permit closes the operation of the equipment.</p>
+            <div class="modal-footer">
+            <%=link_to "Revoke equipment Permit", equipment_path(@equipment), class: "btn btn-danger" %>
+            </div>
+            <br />
+            <hr />
+            <p>Transfer equipment to another taxpayer.</p>
+            <div class="modal-footer">
+            <%=link_to "Transfer Ownership", equipment_path(@equipment.id), class: "btn btn-danger" %>
+            </div>
+            </div>
+        </div>
+  </div>
+    </div>
+  </div>
+

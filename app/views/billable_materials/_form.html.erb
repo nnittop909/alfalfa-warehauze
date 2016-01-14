@@ -1,0 +1,28 @@
+<%= simple_form_for [@project, @billable_material] do |f| %>
+	<div class="col-md-6 col-md-offset-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<% if @billable_material.new_record? %>
+		      <h4>New Material</h4>
+		    <% else %>
+		      <h4>Update Material</h4>
+		    <% end %>
+			</div>
+			<div class="panel-body">
+				<%=f.association :contractor, collection: @project.contractors, input_html: {class: "input-sm"} %>
+				<%=f.association :material, input_html: {class: "input-sm"} %>
+				<%=f.input :quantity, input_html: {class: "input-sm"} %>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<%= link_to "Cancel", (@billable_material.project), class: "btn btn-warning btn-sm" %>
+        </div>
+        <% if @billable_material.new_record? %>
+          <%= f.submit "Save", class: "btn btn-primary btn-sm pull-right" %>
+        <% else %>
+          <%= f.submit "Update", class: "btn btn-primary btn-sm pull-right" %>
+        <% end %>
+			</div>
+		</div>
+	</div>
+<% end %>

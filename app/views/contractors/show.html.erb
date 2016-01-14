@@ -1,0 +1,96 @@
+<%provide(:title, "#{@contractor} | contractors") %>
+
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <!-- Nav tabs -->
+    <div class="card">
+      <div class="row">
+        <h3 class="text-center help-block"><%=@contractor.company.upcase %></h3>
+      </div><hr>
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+        <li role="presentation"><a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Materials</a></li>
+        <li role="presentation"><a href="#permits" aria-controls="permits" role="tab" data-toggle="tab">Permit Status</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="profile">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td id="occupation"><i class="fa fa-user"></i> Contractor Name</td>
+                <td><%= @contractor.full_name.upcase %></td>
+              </tr>
+
+              <tr>
+                <td id="occupation"><i class="fa fa-building"></i> Company</td>
+                <td><%= @contractor.company%></td>
+              </tr>
+
+               <tr>
+                <td id="occupation"><i class="fa fa-map-marker"></i> Address</td>
+                <td><%=%></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-footer">
+            <%=link_to "Update Info", edit_contractor_path(@contractor), class: "btn btn-primary btn-sm" %>
+          </div>                 
+        </div>
+        <div role="tabpanel" class="tab-pane" id="payments">
+          <% @contractor.projects.each do |project| %>
+            <% if @contractor.billable_materials.present? %>
+              <h4 class="text-center"><%= link_to project.name, project_path(project) %></h4><hr>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @contractor.billable_materials.where("project_id = ?", project.id).each do |billable_material| %>
+                    
+                    <tr>
+                      <td><%=billable_material.description.titleize %></td>
+                      <td><%=billable_material.quantity %> <%=billable_material.unit %></td>
+                      <td><%=number_to_currency billable_material.total_price %></td>
+                      <td><%=billable_material.created_at.strftime("%B %d, %Y") %></td>
+                    </tr>
+                  <% end %>
+                  <tr>
+                    <td colspan="2">
+                      <strong class="pull-right">Total: </strong>
+                    </td>
+                    <td colspan="2">
+                      <strong><%= number_to_currency project.billable_materials.sum(:price) %></strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table><hr>
+            <% end %>
+          <% end %>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="permits">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </div>
+        <div role="tabpanel" class="tab-pane" id="settings">
+          <p>Revoking a contractor permit closes the operation of the contractor.</p>
+          <div class="modal-footer">
+          <%=link_to "Revoke contractor Permit", contractor_path(@contractor), class: "btn btn-danger" %>
+          </div>
+          <br />
+          <hr />
+          <p>Transfer contractor to another taxpayer.</p>
+          <div class="modal-footer">
+          <%=link_to "Transfer Ownership", contractor_path(@contractor.id), class: "btn btn-danger" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

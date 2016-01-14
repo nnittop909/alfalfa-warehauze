@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Equipment Expenses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Amount</th>
+      <th>Equipment</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @equipment_expenses.each do |equipment_expense| %>
+      <tr>
+        <td><%= equipment_expense.amount %></td>
+        <td><%= equipment_expense.equipment %></td>
+        <td><%= link_to 'Show', equipment_expense %></td>
+        <td><%= link_to 'Edit', edit_equipment_expense_path(equipment_expense) %></td>
+        <td><%= link_to 'Destroy', equipment_expense, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Equipment expense', new_equipment_expense_path %>

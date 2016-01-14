@@ -1,0 +1,29 @@
+<%= simple_form_for(@location) do |f| %>
+  <%= f.error_notification %>
+<div class="col-md-6 col-md-offset-3">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <% if @location.new_record? %>
+          <h4>New Location</h4>
+        <% else %>
+          <h4>Update Location</h4>
+        <% end %>
+    </div>
+    <div class="panel-body">
+      <%= f.input :street, label: 'Street/Sitio', input_html: {class: "input-sm"} %>
+      <%= f.input :brangay, label: 'Barangay', input_html: {class: "input-sm"} %>
+      <%= f.input :municipality, input_html: {class: "input-sm"} %>
+      <%= f.input :province, input_html: {class: "input-sm"} %>
+    </div>
+    <div class="modal-footer">
+      <div class="pull-right">
+        <% if @location.new_record? %>
+          <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
+        <% else %>
+          <%= f.submit "Update", class: "btn btn-primary btn-sm" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,42 @@
+<aside class="main-sidebar">
+  <section class="sidebar">
+  <!-- Sidebar user panel -->
+   <div class="user-panel">
+            <div class="pull-left image">
+              <%#= attachment_image_tag(current_user, :profile_image, :fill, 50, 50, fallback: "missing.png", class: "img img-circle") %>
+            </div>
+            <div class="pull-left info">
+              <p><%#=current_user.first_name %></p>
+              <a href="#"><i class="fa fa-lock text-success"></i> Online</a>
+            </div>
+          </div>
+    <%#=form_tag taxpayers_path, class: 'sidebar-form', method: :get do %>
+      <div class="input-group">
+        <%#=text_field_tag :query, params[:query], class: 'form-control', placeholder: 'Search...' %>
+        <span class="input-group-btn">
+          <%#= button_tag(type: 'submit', class: "btn btn-flat") do %>
+            <i class="fa fa-search"></i>
+          <%# end %>
+        </span>
+      </div>
+    <%# end %>
+    <ul class="sidebar-menu">
+      <li class="header">MAIN NAVIGATION</li>
+ 
+      <li><a href="#"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+
+       <li><a href="/projects"><i class="fa fa-home"></i> <span>Projects</span></a></li>
+
+        <li><a href="/materials"><i class="fa fa-cog"></i> <span>Materials</span></a></li>
+        <li><a href="/equipments"><i class="fa fa-truck"></i> <span>Equipments</span></a></li>
+      
+       <li><a href="/contractors"><i class="fa fa-users"></i> <span>Contractors</span></a></li>
+         <li><a href="/locations"><i class="fa fa-map-marker"></i> <span>Locations</span></a></li>
+      
+      
+ <li class="header">REPORTS</li>
+
+   <li><a href="/dashboard"><i class="fa fa-list"></i> <span>MONTHLY</span></a></li>
+    </ul>
+  </section>
+</aside>

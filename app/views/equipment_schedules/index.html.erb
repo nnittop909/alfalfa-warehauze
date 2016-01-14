@@ -1,0 +1,30 @@
+<div class="box box-solid">
+<div class="box-header with-border">
+  <h4>Listing Schedules</h4>
+</div>
+<div class="box-body">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-center">Project</th>
+        <th class="text-center">Equipment</th>
+        <th class="text-center">Status</th>
+        <th class="text-center">Dates</th>
+        <th class="text-center">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @schedules.each do |schedule| %>
+        <tr>
+          <td><%= schedule.project.name %></td>
+          <td><%= schedule.equipment %></td>
+          <td><%= schedule.status %></td>
+          <td><%= schedule.starting_date.strftime("%B %e, %Y") %> - <%= schedule.end_date.strftime("%B %e, %Y") %></td>
+          <td><%= link_to 'Edit', edit_schedule_path(schedule) %> | <%= link_to 'Destroy', schedule, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+</div>

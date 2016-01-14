@@ -1,0 +1,41 @@
+<%= simple_form_for [@equipment, @equipment_expense] do |f| %>
+  <%= f.error_notification %>
+  <div class="col-md-6 col-md-offset-3">
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <% if @equipment_expense.new_record? %>
+          <h4>New Repair and Maintenance</h4>
+        <% else %>
+          <h4>Update Repair and Maintenance</h4>
+        <% end %>
+      </div>
+      <div class="box-body">
+        <div class="form-inputs">
+        	<%= f.association :project, input_html: {class: "input-sm"} %>
+          <%= f.input :category, collection:  EquipmentExpense.categories, input_html: {class: "input-sm"} %>
+          <label>Type/Description</label>
+          <%= f.input :description, label: false, as: :string, input_html: {class: "input-sm"} %>
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.input :quantity, input_html: {class: "input-sm"} %>
+            </div>
+            <div class="col-md-6">
+              <%= f.input :unit, as: :string, input_html: {class: "input-sm"} %>
+            </div>
+          </div>
+          <%= f.input :amount, as: :string, input_html: {class: "input-sm"} %>
+        </div>
+        <div class="box-footer">
+          <div class="pull-left">
+          <%= link_to "Cancel", (@equipment_expense.equipment), class: "btn btn-warning btn-sm" %>
+          </div>
+          <% if @equipment_expense.new_record? %>
+            <%= f.submit "Save", class: "btn btn-primary btn-sm pull-right" %>
+          <% else %>
+            <%= f.submit "Update", class: "btn btn-primary btn-sm pull-right" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

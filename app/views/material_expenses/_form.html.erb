@@ -1,0 +1,37 @@
+<%= simple_form_for [@project, @material_expense] do |f| %>
+  <%= f.error_notification %>
+<div class="col-md-6 col-md-offset-3">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <% if @material_expense.new_record? %>
+        <h4>New Material Purchase</h4>
+      <% else %>
+        <h4>Update Purchased Material</h4>
+      <% end %>
+    </div>
+    <div class="panel-body">
+      <%= f.association :contractor, input_html: {class: "input-sm"} %>
+      <%= f.input :description, input_html: {class: "input-sm"} %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :quantity, input_html: {class: "input-sm"} %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :unit, input_html: {class: "input-sm"} %>
+        </div>
+      </div>
+      <%= f.input :price, label: 'Amount', input_html: {class: "input-sm"} %>
+    </div>
+    <div class="modal-footer">
+      <div class="pull-left">
+        <%= link_to "Cancel", (@material_expense.project), class: "btn btn-warning btn-sm" %>
+        </div>
+          <% if @material_expense.new_record? %>
+            <%= f.submit "Save", class: "btn btn-primary btn-sm pull-right" %>
+          <% else %>
+            <%= f.submit "Update", class: "btn btn-primary btn-sm pull-right" %>
+          <% end %>
+    </div>
+  </div>
+</div>
+<% end %>

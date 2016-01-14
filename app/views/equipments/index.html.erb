@@ -1,0 +1,37 @@
+
+
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<div class="box box-solid">
+<div class="box-header with-border">
+<h4 class="pull-left">List of Equipents</h4>
+<%= link_to 'New Equipent', new_equipment_path, class: "btn btn-sm btn-primary pull-right" %>
+</div>
+<div class="box-body">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Plate Number</th>
+      <th>Actions</th>
+   
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @equipments.each do |equipment| %>
+      <tr>
+        <td><strong><%=link_to equipment.description.upcase, equipment %></strong></td>
+         <td><%= equipment.plate_number%></td>
+        
+       
+        
+        <td><%= link_to 'Edit', edit_equipment_path(equipment) %> | <%= link_to 'Delete', equipment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</div>
+

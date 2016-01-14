@@ -1,0 +1,51 @@
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-default">
+		<div class="panel-body">
+  		<table class="table">
+  			<tr>
+  				<td class="text-muted">Name:</td>
+  				<td><%= @upload.uploaded_file_file_name %></td>
+  			</tr>
+  			<tr>
+  				<td class="text-muted">Size:</td>
+  				<td>
+  					<% if @upload.uploaded_file_file_size >= 1024 && @upload.uploaded_file_file_size < 1048576 %>
+  						<%= (@upload.uploaded_file_file_size / 1024) %>KB
+  					<% elsif @upload.uploaded_file_file_size >= 1048576 %>
+  						<%= (@upload.uploaded_file_file_size / 1024 /1024) %>MB
+  					<% end %>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td class="text-muted">Type:</td>
+  				<td>
+            <% if @upload.uploaded_file_content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" %>
+              application/word document
+            <% elsif @upload.uploaded_file_content_type ==   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" %>
+              application/excel document
+            <% else %>
+              <%= @upload.uploaded_file_content_type %>
+            <% end %>
+          </td>
+  			</tr>
+  			<tr>
+  				<td class="text-muted">Date Uploaded:</td>
+  				<td><%= @upload.created_at %></td>
+  			</tr>
+  		</table>
+  		<div class="text-center">
+  		<%= link_to 'Download', "/system/#{@upload.uploaded_file_file_name}", format: 'pdf', title: 'click to download', class: 'btn btn-sm bg-light-blue' %>
+  		</div>
+  	</div>
+  	<div class="modal-footer">
+  		<div class="pull-left">
+  			<%= link_to 'Back', (@upload.project), class: 'btn btn-sm btn-warning' %>
+  		</div>
+  		<div class="pull-right">
+  			<%= link_to 'Update Report', edit_project_upload_path(@upload, @upload), class: 'btn btn-sm btn-primary' %>
+  		</div>
+  	</div>
+  </div>
+
+
+

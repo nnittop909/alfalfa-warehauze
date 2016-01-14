@@ -1,0 +1,48 @@
+<script>
+    $(document).ready(function() {
+        $("#project_contractor_ids").select2({
+
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#project_equipment_ids").select2({
+
+        });
+    });
+</script>
+
+<%= simple_form_for(@project) do |f| %>
+
+<div class="col-md-8 col-md-offset-2">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <% if @project.new_record? %>
+        <h4>New Project</h4>
+      <% else %>
+        <h4>Update Project</h4>
+      <% end %>
+    </div>
+    <div class="panel-body">
+      <%= f.input :name, input_html: {class: "input-sm"} %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :start_date, as: :string, input_html: {class: "datepicker input-sm"} %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :target_date,  as: :string, input_html: {class: "datepicker input-sm"} %>
+        </div>
+      </div>
+      <%= f.association :location, input_html: {class: "input-sm"} %>
+      <%= f.association :contractors, input_html: {class: "input-sm"} %>
+      <%= f.input :cost, input_html: {class: "input-sm"} %>
+    </div>
+    <div class="modal-footer">
+      <%= f.submit class: "btn btn-primary btn-sm pull-right" %>
+      <%= link_to 'Cancel', projects_path, class: "btn btn-sm btn-warning pull-left" %>
+    </div>
+  </div>
+</div>
+<% end %>

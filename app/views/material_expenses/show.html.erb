@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Project:</strong>
+  <%= @material_expense.project_id %>
+</p>
+
+<p>
+  <strong>Contractor:</strong>
+  <%= @material_expense.contractor_id %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @material_expense.description %>
+</p>
+
+<p>
+  <strong>Unit:</strong>
+  <%= @material_expense.unit %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @material_expense.quantity %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @material_expense.price %>
+</p>
+
+<%= link_to 'Edit', edit_material_expense_path(@material_expense) %> |
+<%= link_to 'Back', material_expenses_path %>
