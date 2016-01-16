@@ -159,12 +159,6 @@ ActiveRecord::Schema.define(version: 20160116024949) do
     t.datetime "updated_at",    null: false
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "uploads", force: :cascade do |t|
     t.integer  "project_id"
     t.datetime "created_at",                 null: false
