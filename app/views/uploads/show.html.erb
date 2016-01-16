@@ -34,7 +34,7 @@
   			</tr>
   		</table>
   		<div class="text-center">
-  		<%= link_to 'Download', "/system/#{@upload.uploaded_file_file_name}", format: 'pdf', title: 'click to download', class: 'btn btn-sm bg-light-blue' %>
+  		<%= link_to 'Download', "/system/#{@upload.uploaded_file_file_name}", format: 'pdf', title: 'click to download', class: 'btn btn-sm bg-light-blue', :target => "_blank" %>
   		</div>
   	</div>
   	<div class="modal-footer">

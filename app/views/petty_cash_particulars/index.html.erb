@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Petty Cash Particulars</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Particular</th>
+      <th>Quantity</th>
+      <th>Unit</th>
+      <th>Amount</th>
+      <th>Petty cash</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @petty_cash_particulars.each do |petty_cash_particular| %>
+      <tr>
+        <td><%= petty_cash_particular.particular %></td>
+        <td><%= petty_cash_particular.quantity %></td>
+        <td><%= petty_cash_particular.unit %></td>
+        <td><%= petty_cash_particular.amount %></td>
+        <td><%= petty_cash_particular.petty_cash %></td>
+        <td><%= link_to 'Show', petty_cash_particular %></td>
+        <td><%= link_to 'Edit', edit_petty_cash_particular_path(petty_cash_particular) %></td>
+        <td><%= link_to 'Destroy', petty_cash_particular, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Petty cash particular', new_petty_cash_particular_path %>

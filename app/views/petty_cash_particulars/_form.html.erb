@@ -1,0 +1,35 @@
+<%= simple_form_for [@petty_cash, @petty_cash_particular] do |f| %>
+  <%= f.error_notification %>
+<div class="col-md-6 col-md-offset-3">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <% if @petty_cash_particular.new_record? %>
+        <h4>New Particular</h4>
+      <% else %>
+        <h4>Update Record</h4>
+      <% end %>
+    </div>
+    <div class="panel-body">
+      <%= f.input :particular, input_html: {class: "input-sm"} %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :quantity, input_html: {class: "input-sm"} %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :unit, input_html: {class: "input-sm"} %>
+        </div>
+      </div>
+      <%= f.input :amount, input_html: {class: "input-sm"} %>
+    </div>
+    <div class="modal-footer">
+      <div class="pull-right">
+        <% if @petty_cash_particular.new_record? %>
+          <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
+        <% else %>
+          <%= f.submit "Update", class: "btn btn-primary btn-sm" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

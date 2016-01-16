@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130033055) do
+ActiveRecord::Schema.define(version: 20160116024949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,26 @@ ActiveRecord::Schema.define(version: 20151130033055) do
 
   add_index "operators", ["equipment_id"], name: "index_operators_on_equipment_id", using: :btree
 
+  create_table "petty_cash_particulars", force: :cascade do |t|
+    t.string   "particular"
+    t.integer  "quantity"
+    t.string   "unit"
+    t.decimal  "amount"
+    t.integer  "petty_cash_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "petty_cash_particulars", ["petty_cash_id"], name: "index_petty_cash_particulars_on_petty_cash_id", using: :btree
+
+  create_table "petty_cashes", force: :cascade do |t|
+    t.string   "cash_recipient"
+    t.string   "purpose"
+    t.decimal  "amount"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string   "name"
     t.integer  "contractor_id"
@@ -170,7 +190,7 @@ ActiveRecord::Schema.define(version: 20151130033055) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "role_id"
+    t.integer  "role"
     t.string   "username"
   end
 
@@ -186,5 +206,6 @@ ActiveRecord::Schema.define(version: 20151130033055) do
   add_foreign_key "equipment_schedules", "projects"
   add_foreign_key "equipments", "projects"
   add_foreign_key "operators", "equipments"
+  add_foreign_key "petty_cash_particulars", "petty_cashes"
   add_foreign_key "uploads", "projects"
 end

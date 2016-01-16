@@ -1,0 +1,73 @@
+<div class="col-md-8 col-md-offset-2">
+  <div class="panel panel-default">
+    <div class="panel-body">
+    	<h3 class="text-center">Petty Cash</h3>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>Cash recipient:</td>
+            <td><%= @petty_cash.cash_recipient %></td>
+          </tr>
+          <tr>
+            <td>Purpose:</td>
+            <td><%= @petty_cash.purpose %></td>
+          </tr>
+          <tr>
+            <td>Amount:</td>
+            <td><%= number_to_currency @petty_cash.amount %></td>
+          </tr>
+          <tr>
+            <td>Date:</td>
+            <td><%= @petty_cash.created_at.strftime("%B %d, %Y - %H:%M %p") %></td>
+          </tr>
+        </tbody>
+      </table><hr>
+      <% if @petty_cash.petty_cash_particulars.present? %>
+      	<h3 class="text-center">Particulars</h3><hr>
+      	<table class="table table-hover">
+      		<thead>
+      			<tr>
+      				<th>Name</th>
+      				<th>Quantity</th>
+      				<th>Amount</th>
+      				<th>Action</th>
+      			</tr>
+      		</thead>
+      		<tbody>
+      			<% @petty_cash.petty_cash_particulars.each do |particular| %>
+	      			<tr>
+	      				<td><%= particular.particular %></td>
+	      				<td><%= particular.quantity %> <%= particular.unit %></td>
+	      				<td><%= number_to_currency particular.amount %></td>
+	      				<td><%= link_to 'Delete', petty_cash_petty_cash_particular_path(@petty_cash, particular.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	      			</tr>
+	      		<% end %>
+	      		<tr>
+	      			<td colspan="2">
+	      				<strong class="pull-right">Total: </strong>
+	      			</td>
+	      			<td colspan="2"><%=number_to_currency @petty_cash.petty_cash_particulars.sum(:amount) %></td>
+	      		</tr>
+	      		<tr>
+	      			<th colspan="2">
+	      				<strong class="pull-right">Balance: </strong>
+	      			</th>
+	      			<th colspan="2"><%=number_to_currency @petty_cash.amount - @petty_cash.petty_cash_particulars.sum(:amount) %></th>
+	      		</tr>
+      		</tbody>
+      	</table>
+      <% end %>
+      <div class="text-center">
+     	  <%= link_to 'Add Particulars', new_petty_cash_petty_cash_particular_path(@petty_cash), class: 'btn btn-sm btn-primary' %>
+     	</div>
+    </div>
+    <div class="modal-footer">
+      <div class="pull-left">
+        <%= link_to 'Back', petty_cashes_path, class: 'btn btn-sm btn-warning' %>
+      </div>
+      <div class="pull-right">
+        <%= link_to 'Update', edit_petty_cash_path(@petty_cash), class: 'btn btn-sm btn-primary' %>
+      </div>
+    </div>
+  </div>
+</div>

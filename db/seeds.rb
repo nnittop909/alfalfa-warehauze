@@ -5,7 +5,5 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-r1 = Role.create(:name => 'user')  
-r2 = Role.create(:name => 'admin')  
-us1 = User.create(:username => 'user123', :email => 'user@gmail.com' , :password => 'user12345', :role_id => r1.id)   
-us2 = User.create(:username => 'admin', :email => 'admin@gmail.com' , :password => 'admin12345', :role_id => r2.id)
+user = CreateAdminService.new.call
+puts 'CREATED ADMIN USER: ' << user.email

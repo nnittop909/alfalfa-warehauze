@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  
+  resources :petty_cashes do
+    resources :petty_cash_particulars
+  end
   resources :uploads
   devise_for :users
   resources :operators
