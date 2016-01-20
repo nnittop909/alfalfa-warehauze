@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Bid Collections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Bid amount</th>
+      <th>Billing name</th>
+      <th>Amount</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bid_collections.each do |bid_collection| %>
+      <tr>
+        <td><%= bid_collection.bid_amount %></td>
+        <td><%= bid_collection.billing_name %></td>
+        <td><%= bid_collection.amount %></td>
+        <td><%= link_to 'Show', bid_collection %></td>
+        <td><%= link_to 'Edit', edit_bid_collection_path(bid_collection) %></td>
+        <td><%= link_to 'Destroy', bid_collection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Bid collection', new_bid_collection_path %>

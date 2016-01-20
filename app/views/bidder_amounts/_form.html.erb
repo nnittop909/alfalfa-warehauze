@@ -1,0 +1,31 @@
+<%= simple_form_for [@project, @bidder_amount] do |f| %>
+  <%= f.error_notification %>
+	<div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <% if @bidder_amount.new_record? %>
+          <h4>New Bidders</h4>
+        <% else %>
+          <h4>Update Bidders</h4>
+        <% end %>
+      </div>
+      <div class="panel-body">
+      	<%= f.input :bid_expense_id, collection: @project.bidding.bid_expenses.all %>
+      	<%= f.input :bidder_id, collection: @project.bidders.all %>
+		    <%= f.input :amount, input_html: {class: 'input-sm'} %>
+		  </div>
+			<div class="modal-footer">
+        <div class="pull-left">
+          <%= link_to "Cancel", project_path(@project), class: "btn btn-warning btn-sm" %>
+        </div>
+        <div class="pull-right">
+          <% if @bidder_amount.new_record? %>
+            <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
+          <% else %>
+            <%= f.submit "Update", class: "btn btn-primary btn-sm" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

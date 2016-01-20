@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Cash Sources</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Amount</th>
+      <th>Petty cash</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cash_sources.each do |cash_source| %>
+      <tr>
+        <td><%= cash_source.amount %></td>
+        <td><%= cash_source.petty_cash %></td>
+        <td><%= link_to 'Show', cash_source %></td>
+        <td><%= link_to 'Edit', edit_cash_source_path(cash_source) %></td>
+        <td><%= link_to 'Destroy', cash_source, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cash source', new_cash_source_path %>

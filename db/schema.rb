@@ -11,10 +11,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160116024949) do
+ActiveRecord::Schema.define(version: 20160120045140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bid_collections", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "bid_amount_id"
+    t.string   "billing_name"
+    t.decimal  "amount"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "bid_collections", ["project_id"], name: "index_bid_collections_on_project_id", using: :btree
+
+  create_table "bid_expenses", force: :cascade do |t|
+    t.integer  "bidding_id"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "bid_expenses", ["bidding_id"], name: "index_bid_expenses_on_bidding_id", using: :btree
+
+  create_table "bidder_amounts", force: :cascade do |t|
+    t.integer  "bid_expense_id"
+    t.integer  "project_id"
+    t.integer  "bidder_id"
+    t.string   "amount"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "bidder_amounts", ["project_id"], name: "index_bidder_amounts_on_project_id", using: :btree
+
+  create_table "bidders", force: :cascade do |t|
+    t.integer  "bidding_id"
+    t.integer  "project_id"
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "bidders", ["bidding_id"], name: "index_bidders_on_bidding_id", using: :btree
+  add_index "bidders", ["project_id"], name: "index_bidders_on_project_id", using: :btree
+
+  create_table "biddings", force: :cascade do |t|
+    t.integer  "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "biddings", ["project_id"], name: "index_biddings_on_project_id", using: :btree
 
   create_table "billable_materials", force: :cascade do |t|
     t.integer  "project_id"
@@ -29,6 +79,16 @@ ActiveRecord::Schema.define(version: 20160116024949) do
   add_index "billable_materials", ["contractor_id"], name: "index_billable_materials_on_contractor_id", using: :btree
   add_index "billable_materials", ["material_id"], name: "index_billable_materials_on_material_id", using: :btree
   add_index "billable_materials", ["project_id"], name: "index_billable_materials_on_project_id", using: :btree
+
+  create_table "cash_sources", force: :cascade do |t|
+    t.string   "description"
+    t.decimal  "amount"
+    t.integer  "petty_cash_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "cash_sources", ["petty_cash_id"], name: "index_cash_sources_on_petty_cash_id", using: :btree
 
   create_table "contractors", force: :cascade do |t|
     t.string   "first_name"
@@ -128,27 +188,27 @@ ActiveRecord::Schema.define(version: 20160116024949) do
 
   add_index "operators", ["equipment_id"], name: "index_operators_on_equipment_id", using: :btree
 
-  create_table "petty_cash_particulars", force: :cascade do |t|
-    t.string   "particular"
-    t.integer  "quantity"
-    t.string   "unit"
-    t.decimal  "amount"
+  create_table "particulars", force: :cascade do |t|
     t.integer  "petty_cash_id"
+    t.integer  "project_id"
+    t.integer  "contractor_id"
+    t.string   "recipient"
+    t.string   "description"
+    t.decimal  "amount"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
 
-  add_index "petty_cash_particulars", ["petty_cash_id"], name: "index_petty_cash_particulars_on_petty_cash_id", using: :btree
+  add_index "particulars", ["petty_cash_id"], name: "index_particulars_on_petty_cash_id", using: :btree
 
   create_table "petty_cashes", force: :cascade do |t|
-    t.string   "cash_recipient"
-    t.string   "purpose"
-    t.decimal  "amount"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.decimal  "cash_on_hand"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "projects", force: :cascade do |t|
+    t.string   "id_number"
     t.string   "name"
     t.integer  "contractor_id"
     t.datetime "start_date"
@@ -192,14 +252,21 @@ ActiveRecord::Schema.define(version: 20160116024949) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
+  add_foreign_key "bid_collections", "projects"
+  add_foreign_key "bid_expenses", "biddings"
+  add_foreign_key "bidder_amounts", "projects"
+  add_foreign_key "bidders", "biddings"
+  add_foreign_key "bidders", "projects"
+  add_foreign_key "biddings", "projects"
   add_foreign_key "billable_materials", "contractors"
   add_foreign_key "billable_materials", "materials"
   add_foreign_key "billable_materials", "projects"
+  add_foreign_key "cash_sources", "petty_cashes"
   add_foreign_key "equipment_expenses", "equipments"
   add_foreign_key "equipment_schedules", "equipments"
   add_foreign_key "equipment_schedules", "projects"
   add_foreign_key "equipments", "projects"
   add_foreign_key "operators", "equipments"
-  add_foreign_key "petty_cash_particulars", "petty_cashes"
+  add_foreign_key "particulars", "petty_cashes"
   add_foreign_key "uploads", "projects"
 end

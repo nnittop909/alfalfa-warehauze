@@ -1,6 +1,7 @@
 class CreateProjects < ActiveRecord::Migration
   def change
     create_table :projects do |t|
+      t.string :id_number
       t.string :name
       t.integer :contractor_id
       t.datetime :start_date

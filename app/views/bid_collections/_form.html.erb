@@ -1,0 +1,32 @@
+<%= simple_form_for [@project, @bid_collection] do |f| %>
+  <%= f.error_notification %>
+	<div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <% if @bid_collection.new_record? %>
+          <h4>New Bid Collection</h4>
+        <% else %>
+          <h4>Update Bid Collection</h4>
+        <% end %>
+      </div>
+      <div class="panel-body">
+		    <%= f.input :bid_amount_id, collection: @project.bidder_amounts.all, as: :radio_buttons %>
+		    <%= f.input :billing_name, input_html: {class: 'input-sm'} %>
+		    <%= f.input :amount, input_html: {class: 'input-sm'} %>
+		  </div>
+
+  		<div class="modal-footer">
+        <div class="pull-left">
+          <%= link_to "Cancel", project_path(@project), class: "btn btn-warning btn-sm" %>
+        </div>
+        <div class="pull-right">
+          <% if @bid_collection.new_record? %>
+            <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
+          <% else %>
+            <%= f.submit "Update", class: "btn btn-primary btn-sm" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

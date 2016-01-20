@@ -1,0 +1,16 @@
+<fieldset>
+	<div class="row">
+    <div class="col-md-12">
+      <label>Bidder</label>
+    </div>
+		<div class="col-md-11">
+  		<%= f.input :name, label: false, input_html: {class: "input-sm"} %>
+  	</div>
+  	<div class="col-md-1">
+  		<%= f.hidden_field :_destroy %>
+  		<%= link_to '#', class: "remove_fields", title: 'Remove' do %>
+        <b style="font-size:20px">x</b>
+      <% end %>
+  	</div>
+  </div>
+</fieldset>

@@ -26,7 +26,15 @@
       <% end %>
     </div>
     <div class="panel-body">
-      <%= f.input :name, input_html: {class: "input-sm"} %>
+      <%= f.input :id_number, label: 'Project ID', input_html: {class: "input-sm"} %>
+      <%= f.input :name, label: 'Project Name', input_html: {class: "input-sm"} %>
+      <div class="row">
+        <div class="col-md-12">
+          <label>Location: </i></label>
+          <%= f.association :location, label: false, input_html: {class: "input-sm"} %>
+          <i><%= link_to 'New Location?', new_location_path, class: 'pull-right' %></i>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-6">
           <%= f.input :start_date, as: :string, input_html: {class: "datepicker input-sm"} %>
@@ -35,9 +43,8 @@
           <%= f.input :target_date,  as: :string, input_html: {class: "datepicker input-sm"} %>
         </div>
       </div>
-      <%= f.association :location, input_html: {class: "input-sm"} %>
       <%= f.association :contractors, input_html: {class: "input-sm"} %>
-      <%= f.input :cost, input_html: {class: "input-sm"} %>
+      <%= f.input :cost, label: 'Project Cost', input_html: {class: "input-sm"} %>
     </div>
     <div class="modal-footer">
       <%= f.submit class: "btn btn-primary btn-sm pull-right" %>

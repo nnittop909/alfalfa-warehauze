@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Bid amount:</strong>
+  <%= @bid_collection.bid_amount %>
+</p>
+
+<p>
+  <strong>Billing name:</strong>
+  <%= @bid_collection.billing_name %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @bid_collection.amount %>
+</p>
+
+<%= link_to 'Edit', edit_bid_collection_path(@bid_collection) %> |
+<%= link_to 'Back', bid_collections_path %>

@@ -9,7 +9,7 @@
       </div><hr>
       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-        <li role="presentation"><a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Materials</a></li>
+        <li role="presentation"><a href="#payments" aria-controls="payments" role="tab" data-toggle="tab">Projects</a></li>
         <li role="presentation"><a href="#permits" aria-controls="permits" role="tab" data-toggle="tab">Permit Status</a></li>
         <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
       </ul>
@@ -41,38 +41,48 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="payments">
           <% @contractor.projects.each do |project| %>
-            <% if @contractor.billable_materials.present? %>
-              <h4 class="text-center"><%= link_to project.name, project_path(project) %></h4><hr>
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>Material</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @contractor.billable_materials.where("project_id = ?", project.id).each do |billable_material| %>
-                    
-                    <tr>
-                      <td><%=billable_material.description.titleize %></td>
-                      <td><%=billable_material.quantity %> <%=billable_material.unit %></td>
-                      <td><%=number_to_currency billable_material.total_price %></td>
-                      <td><%=billable_material.created_at.strftime("%B %d, %Y") %></td>
-                    </tr>
+            <div class="panel box box-solid">
+              <div class="box-header with-border">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">
+                  <b class="pull-left"><%= project.name %></b>
+                </a>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse" aria-expanded="true">
+                <div class="box-body">
+                  <% if @contractor.billable_materials.present? %>
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Material</th>
+                          <th>Quantity</th>
+                          <th>Price</th>
+                          <th>Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @contractor.billable_materials.where("project_id = ?", project.id).each do |billable_material| %>
+                          
+                          <tr>
+                            <td><%=billable_material.description.titleize %></td>
+                            <td><%=billable_material.quantity %> <%=billable_material.unit %></td>
+                            <td><%=number_to_currency billable_material.total_price %></td>
+                            <td><%=billable_material.created_at.strftime("%B %d, %Y") %></td>
+                          </tr>
+                        <% end %>
+                        <tr>
+                          <td colspan="2">
+                            <strong class="pull-right">Total: </strong>
+                          </td>
+                          <td colspan="2">
+                            <strong><%= number_to_currency project.billable_materials.sum(:price) %></strong>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table><hr>
                   <% end %>
-                  <tr>
-                    <td colspan="2">
-                      <strong class="pull-right">Total: </strong>
-                    </td>
-                    <td colspan="2">
-                      <strong><%= number_to_currency project.billable_materials.sum(:price) %></strong>
-                    </td>
-                  </tr>
-                </tbody>
-              </table><hr>
-            <% end %>
+                </div>
+              </div>
+            </div>
           <% end %>
         </div>
         <div role="tabpanel" class="tab-pane" id="permits">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.

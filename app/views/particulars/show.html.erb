@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Petty cash:</strong>
+  <%= @particular.petty_cash %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @particular.description %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @particular.amount %>
+</p>
+
+<%= link_to 'Edit', edit_particular_path(@particular) %> |
+<%= link_to 'Back', particulars_path %>

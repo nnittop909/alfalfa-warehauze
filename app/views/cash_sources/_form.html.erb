@@ -1,0 +1,30 @@
+<%= simple_form_for [@petty_cash, @cash_source] do |f| %>
+  <%= f.error_notification %>
+	<div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <% if @cash_source.new_record? %>
+          <h4>New Cash Source</h4>
+        <% else %>
+          <h4>Update Cash Source</h4>
+        <% end %>
+      </div>
+      <div class="panel-body">
+		    <%= f.input :description %>
+		    <%= f.input :amount %>
+		  </div>
+		  <div class="modal-footer">
+        <div class="pull-left">
+          <%= link_to "Cancel", petty_cash_path(@petty_cash), class: "btn btn-warning btn-sm" %>
+        </div>
+        <div class="pull-right">
+          <% if @cash_source.new_record? %>
+            <%= f.submit "Save", class: "btn btn-primary btn-sm" %>
+          <% else %>
+            <%= f.submit "Update", class: "btn btn-primary btn-sm" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

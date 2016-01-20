@@ -1,24 +1,33 @@
 Rails.application.routes.draw do
-  
-  resources :petty_cashes do
-    resources :petty_cash_particulars
-  end
-  resources :uploads
-  devise_for :users
-  resources :operators
-  resources :equipments do 
-    resources :equipment_expenses
-  end
+
   resources :locations
   root "projects#index"
   resources :materials
   resources :contractors
+  resources :uploads
+  devise_for :users
+  resources :operators
+  resources :bid_expenses
+  
+  resources :petty_cashes do
+    resources :particulars
+    resources :cash_sources
+  end
+
+  resources :equipments do 
+    resources :equipment_expenses
+  end
+  
   resources :projects do 
     resources :billable_materials
     resources :equipment_schedules
     resources :uploads
     resources :material_expenses
     resources :locations
+    resources :biddings
+    resources :bidders
+    resources :bidder_amounts
+    resources :bid_collections
   end
     resources :billable_materials
     resources :equipment_schedules

@@ -10,6 +10,10 @@ class Project < ActiveRecord::Base
   belongs_to :location
   has_many :project_locations, through: :locations
   has_many :material_expenses
+  has_one :bidding
+  has_many :bidders
+  has_many :bidder_amounts
+  has_many :bid_collections
   
   def sub_totals
    self.billable_materials.map { |i| i.total_price }  

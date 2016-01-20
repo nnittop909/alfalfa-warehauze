@@ -14,7 +14,12 @@ class PettyCashesController < ApplicationController
 
   # GET /petty_cashes/new
   def new
-    @petty_cash = PettyCash.new
+    if PettyCash.last.present?
+      @petty_cash_on_hand = PettyCash.last.set_total_cash_on_hand
+      @petty_cash = PettyCash.new
+    else
+      @petty_cash = PettyCash.new
+    end
   end
 
   # GET /petty_cashes/1/edit
@@ -28,7 +33,7 @@ class PettyCashesController < ApplicationController
 
     respond_to do |format|
       if @petty_cash.save
-        format.html { redirect_to petty_cashes_path, notice: 'Petty cash was successfully created.' }
+        format.html { redirect_to @petty_cash, notice: 'Petty cash was successfully created.' }
         format.json { render :show, status: :created, location: @petty_cash }
       else
         format.html { render :new }
@@ -42,7 +47,7 @@ class PettyCashesController < ApplicationController
   def update
     respond_to do |format|
       if @petty_cash.update(petty_cash_params)
-        format.html { redirect_to petty_cashes_path, notice: 'Petty cash was successfully updated.' }
+        format.html { redirect_to @petty_cash, notice: 'Petty cash was successfully updated.' }
         format.json { render :show, status: :ok, location: @petty_cash }
       else
         format.html { render :edit }
@@ -69,6 +74,6 @@ class PettyCashesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def petty_cash_params
-      params.require(:petty_cash).permit(:cash_recipient, :purpose, :amount)
+      params.require(:petty_cash).permit(:cash_on_hand)
     end
 end
